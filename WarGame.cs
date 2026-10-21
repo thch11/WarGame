@@ -53,6 +53,7 @@ class Game
             RemovePlayerShots();
             MovePlayerShots();
             DrawPlayerShot();
+            CheckPlayerShotEnemy();
             DrawPlayer();
             // Game.DrawMap();
             // Game.DrawEnemy();
@@ -69,10 +70,10 @@ class Game
                 p1.Shoot();
                 DrawPlayerShot();
             }
-            CheckPlayerShotEnemy();
             DrawPlayer();
             RemoveEnemy();
             TimeToBounce = MoveEnemy(TimeToBounce);
+            CheckPlayerShotEnemy();
             DrawEnemy();
             // Game.p1.Move();
 
