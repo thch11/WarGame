@@ -46,7 +46,6 @@ class Game
         }
 
     }
-
     public void Start()
     {
         while (GameOver == false)
@@ -70,7 +69,9 @@ class Game
                 p1.Shoot();
                 DrawPlayerShot();
             }
+            CheckPlayerShotEnemy();
             DrawPlayer();
+            RemoveEnemy();
             TimeToBounce = MoveEnemy(TimeToBounce);
             DrawEnemy();
             // Game.p1.Move();
@@ -127,8 +128,42 @@ class Game
         int i = 0;
         while (i < EnemyList.Count)
         {
+            if (EnemyList[i].IsDead == false)
+            {
+                Console.SetCursorPosition(EnemyList[i].x, EnemyList[i].y);
+                Console.WriteLine("O");
+            }
+            i++;
+        }
+    }
+    public void CheckPlayerShotEnemy()
+    {
+        int i = 0;
+        while(i < p1.shotlist.Count)
+        {
+            int j = 0;
+            while(j < EnemyList.Count)
+            {
+                if (p1.shotlist[i].x == EnemyList[j].x && p1.shotlist[i].y == EnemyList[j].y && EnemyList[j].IsDead == false)
+                {
+                    EnemyList[j].IsDead = true;
+                    p1.shotlist.RemoveAt(i);
+                    i--;
+                    break;
+                }
+                j++;
+            }
+            i++;
+            j = 0;
+        }
+    }
+    public void RemoveEnemy()
+    {
+        int i = 0;
+        while (i < EnemyList.Count)
+        {
             Console.SetCursorPosition(EnemyList[i].x, EnemyList[i].y);
-            Console.WriteLine("O");
+            Console.WriteLine(" ");
             i++;
         }
     }
@@ -183,13 +218,8 @@ class Game
     - Game.RemovePlayerShots();
     - Game.DrawEnemyShots();
     - Game.RemoveEnemyShots();
-    -
-    
     */
-
-
 }
-
 class Player
 {
     public List<Shot> shotlist;
@@ -217,7 +247,6 @@ class Player
         }
     }
 }
-
 class Enemy
 {
     public bool IsDead;
@@ -229,9 +258,7 @@ class Enemy
         this.y = y;
         IsDead = false;
     }
-
 }
-
 class Shot
 {
     public int x;
