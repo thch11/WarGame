@@ -1,4 +1,6 @@
 // UC6 - Update
+using System.Media;
+
 Console.CursorVisible = false;
 
 Game g1 = new Game();
@@ -6,6 +8,8 @@ g1.Start();
 
 class Game
 {
+    public SoundPlayer DeadSound;
+    public SoundPlayer Piv;
     public bool TimeToBounce;
     public int EnemyDirection;
     public int EnemyCount;
@@ -23,6 +27,9 @@ class Game
         DrawPlayer();
         DrawEnemy();
         DrawBoard();
+        DeadSound = new SoundPlayer(@"C:\Users\thoma\source\repos\WarGame\WarGame\Frederik.wav");
+        Piv = new SoundPlayer(@"C:\Users\thoma\source\repos\WarGame\WarGame\Piv.wav");
+
     }
     public void CreatePlayer()
     {
@@ -55,8 +62,6 @@ class Game
             DrawPlayerShot();
             CheckPlayerShotEnemy();
             DrawPlayer();
-            // Game.DrawMap();
-            // Game.DrawEnemy();
             Console.ForegroundColor = ConsoleColor.Black;
             char input = Console.ReadKey().KeyChar;
             Console.ForegroundColor = ConsoleColor.White;
@@ -68,6 +73,7 @@ class Game
             else if (input == ' ')
             {
                 p1.Shoot();
+                Piv.Play();
                 DrawPlayerShot();
             }
             DrawPlayer();
@@ -75,8 +81,6 @@ class Game
             TimeToBounce = MoveEnemy(TimeToBounce);
             CheckPlayerShotEnemy();
             DrawEnemy();
-            // Game.p1.Move();
-
         }
 
     }
@@ -147,6 +151,7 @@ class Game
             {
                 if (p1.shotlist[i].x == EnemyList[j].x && p1.shotlist[i].y == EnemyList[j].y && EnemyList[j].IsDead == false)
                 {
+                    DeadSound.Play();
                     EnemyList[j].IsDead = true;
                     p1.shotlist.RemoveAt(i);
                     i--;
